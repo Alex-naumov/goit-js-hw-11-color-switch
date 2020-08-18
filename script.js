@@ -15,20 +15,24 @@ const refs = {
 const randomIntegerFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
-
-this.stop = () => {
-  clearInterval(this.id);
-  this.id = 0;
+let id = 0;
+const stop = () => {
+  clearInterval(id);
+  id = 0;
+  refs.start.removeAttribute("disabled");
 };
-this.start = () => {
-  if (this.id) {
+
+const start = () => {
+  refs.start.setAttribute("disabled", "disabled");
+  if (id) {
     return;
   }
-  this.id = setInterval(() => {
+  id = setInterval(() => {
     let index = randomIntegerFromInterval(0, colors.length - 1);
     document.body.style.backgroundColor = colors[index];
+    console.log(colors[index]);
   }, 1000);
 };
 
-refs.start.addEventListener("click", this.start);
-refs.stop.addEventListener("click", this.stop);
+refs.start.addEventListener("click", start);
+refs.stop.addEventListener("click", stop);
